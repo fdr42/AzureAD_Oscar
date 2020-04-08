@@ -57,10 +57,12 @@ export class AppComponent {
         console.warn(event);
       }
     });
+    this.oauthService.setupAutomaticSilentRefresh();
   }
 
   login() {
     this.oauthService.initImplicitFlow();
+    console.log( this.oauthService.getIdToken() );
   }
 
   logout() {
@@ -68,7 +70,8 @@ export class AppComponent {
   }
 
   get givenName() {
-    const claims = this.oauthService.getIdentityClaims();
+    const claims = this.oauthService.
+    getIdentityClaims();
     if (!claims) {
       return null;
     }
@@ -84,10 +87,7 @@ export class AppComponent {
       .then(info => console.debug('refresh ok', info))
       .catch(err => console.error('refresh error', err));
 
-    this.httpClient.get( 'http://localhost:8080/public').subscribe( ( result) => {
-      console.log( result.toString() );
-    });
-    console.log( this.oauthService.getIdentityClaims() );
+    console.log( this.oauthService.getIdToken() );
 
   }
 
